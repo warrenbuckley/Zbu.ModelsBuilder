@@ -81,6 +81,18 @@ namespace Umbraco.ModelsBuilder.Umbraco
             return constructor == null ? content : constructor(content);
         }
 
+        public Type ModelTypeInfosType
+        {
+            get
+            {
+                // fixme - what if assembly is null?
+                // fixme - shall we lock?
+                EnsureModels();
+                return _modelsAssembly.GetType("Umbraco.ModelsBuilder.Meta.ModelInfos");
+
+            }
+        }
+
         #endregion
 
         #region Compilation
@@ -426,7 +438,8 @@ namespace Umbraco.ModelsBuilder.Umbraco
             var builder = new TextBuilder(typeModels, parseResult, UmbracoConfig.For.ModelsBuilder().ModelsNamespace);
 
             var codeBuilder = new StringBuilder();
-            builder.Generate(codeBuilder, builder.GetModelsToGenerate());
+            var modelsToGenerate = builder.GetModelsToGenerate().ToArray();
+            builder.Generate(codeBuilder, modelsToGenerate);
             var code = codeBuilder.ToString();
 
             return code;

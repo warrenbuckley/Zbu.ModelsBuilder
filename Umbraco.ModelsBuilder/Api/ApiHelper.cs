@@ -23,6 +23,11 @@ namespace Umbraco.ModelsBuilder.Api
                 builder.Generate(sb, typeModel);
                 models[typeModel.ClrName] = sb.ToString();
             }
+
+            var msb = new StringBuilder();
+            builder.GenerateMeta(msb, builder.GetModelsToGenerate());
+            models["ModelsBuilder.Meta"] = msb.ToString();
+
             return models;
         }
     }

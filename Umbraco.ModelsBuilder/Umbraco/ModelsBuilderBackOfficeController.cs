@@ -116,6 +116,11 @@ namespace Umbraco.ModelsBuilder.Umbraco
                 File.WriteAllText(filename, sb.ToString());
             }
 
+            var msb = new StringBuilder();
+            builder.GenerateMeta(msb, builder.GetModelsToGenerate());
+            var mfilename = Path.Combine(modelsDirectory, "ModelsBuilder.Meta.generated.cs");
+            File.WriteAllText(mfilename, msb.ToString());
+
             // the idea was to calculate the current hash and to add it as an extra file to the compilation,
             // in order to be able to detect whether a DLL is consistent with an environment - however the
             // environment *might not* contain the local partial files, and thus it could be impossible to

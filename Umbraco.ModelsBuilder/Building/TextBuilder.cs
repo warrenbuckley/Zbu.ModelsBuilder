@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text;
-using Lucene.Net.Util;
 using Umbraco.Core.Configuration;
-using Umbraco.ModelsBuilder.Api;
 using Umbraco.ModelsBuilder.Configuration;
 
 namespace Umbraco.ModelsBuilder.Building
@@ -87,6 +84,9 @@ namespace Umbraco.ModelsBuilder.Building
             }
 
             sb.Append("}\n");
+
+            sb.Append("\n");
+            WriteMeta(sb, typeModels);
         }
 
         /// <summary>
@@ -503,5 +503,37 @@ namespace Umbraco.ModelsBuilder.Building
             { "system.double", "double" },
             { "system.decimal", "decimal" }
         };
+
+        public void GenerateMeta(StringBuilder sb, IEnumerable<TypeModel> typeModels)
+        {
+            WriteHeader(sb);
+            sb.Append("\n");
+            WriteMeta(sb, typeModels);
+        }
+
+        private static void WriteMeta(StringBuilder sb, IEnumerable<TypeModel> typeModels)
+        {
+            sb.Append("namespace Umbraco.ModelsBuilder.Meta\n{\n");
+            sb.Append("\tpublic static class ModelInfos\n\t{");
+            sb.Append("\t\tpublic static ModelTypeInfo[] Types = new ModelTypeInfo[]\n");
+            sb.Append("\t\t{\n");
+
+            foreach (var typeModel in typeModels)
+            {
+                sb.AppendFormat("\t\t\tnew ModelTypeInfo(\"{0}\", \"{1}\", new ModelPropertyInfo[]\n", typeModel.Alias, typeModel.ClrName);
+                sb.Append("\t\t\t{\n");
+
+                foreach (var propertyModel in typeModel.Properties)
+                {
+                    sb.AppendFormat("\t\t\t\tnew ModelPropertyInfo(\"{0}\", \"{1}\", \"{2}\"),\n", propertyModel.Alias, propertyModel.ClrName, propertyModel.ClrType.FullName);
+                }
+
+                sb.Append("\t\t\t}),\n");
+            }
+
+            sb.Append("\t\t};\n");
+            sb.Append("\t}\n");
+            sb.Append("}\n");
+        }
     }
 }

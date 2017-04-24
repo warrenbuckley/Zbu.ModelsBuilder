@@ -314,6 +314,9 @@
     </Compile>
     <Compile Include="Api\ApiHelper.cs" />
     <Compile Include="Building\CompilerException.cs" />
+    <Compile Include="Meta\ModelPropertyInfo.cs" />
+    <Compile Include="Meta\ModelStaticInfos.cs" />
+    <Compile Include="Meta\ModelTypeInfo.cs" />
     <Compile Include="Building\TextHeaderWriter.cs" />
     <Compile Include="Configuration\ClrNameSource.cs" />
     <Compile Include="Dashboard\DashboardHelper.cs" />
@@ -369,6 +372,7 @@
     <Content Include="Dashboard\modelsbuilder.htm" />
     <Content Include="Dashboard\modelsbuilder.resource.js" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
